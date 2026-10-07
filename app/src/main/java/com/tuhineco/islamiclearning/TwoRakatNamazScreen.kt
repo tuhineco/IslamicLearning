@@ -24,67 +24,71 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-data class NamazTopic(
-    val emoji: String,
+data class NamazStep(
+    val number: String,
     val title: String,
     val description: String
 )
 
 @Composable
-fun NamazScreen(
-    onBackClick: () -> Unit,
-    onTwoRakatClick: () -> Unit
+fun TwoRakatNamazScreen(
+    onBackClick: () -> Unit
 ) {
 
     BackHandler {
         onBackClick()
     }
 
-    val topics = listOf(
-        NamazTopic(
-            "🕌",
-            "২ রাকাত নামাজ",
-            "দুই রাকাত নামাজ ধাপে ধাপে শিখুন।"
+    val steps = listOf(
+        NamazStep(
+            "১",
+            "নামাজের প্রস্তুতি",
+            "ওযু করে পরিষ্কার-পরিচ্ছন্ন হয়ে কিবলামুখী হয়ে দাঁড়ান।"
         ),
-        NamazTopic(
-            "🕌",
-            "নামাজের গুরুত্ব",
-            "নামাজ ইসলামের গুরুত্বপূর্ণ ইবাদত। প্রতিদিন পাঁচ ওয়াক্ত নামাজ আদায় করা ফরজ।"
+        NamazStep(
+            "২",
+            "নিয়ত",
+            "মনে যে দুই রাকাত নামাজ আদায় করবেন তার নিয়ত করুন।"
         ),
-        NamazTopic(
-            "💧",
-            "নামাজের আগে প্রস্তুতি",
-            "ওযু, পরিষ্কার-পরিচ্ছন্নতা, পবিত্র পোশাক এবং নামাজের স্থান প্রস্তুত করুন।"
-        ),
-        NamazTopic(
-            "🤲",
-            "নামাজের নিয়ত",
-            "যে নামাজ আদায় করবেন, সেই নামাজের নিয়ত করুন।"
-        ),
-        NamazTopic(
-            "☝️",
+        NamazStep(
+            "৩",
             "তাকবীরে তাহরিমা",
-            "নামাজ শুরু করার সময় আল্লাহু আকবার বলে হাত বাঁধুন।"
+            "দুই হাত কানের কাছে বা কাঁধ পর্যন্ত তুলে ‘আল্লাহু আকবার’ বলে নামাজ শুরু করুন।"
         ),
-        NamazTopic(
-            "🙇",
+        NamazStep(
+            "৪",
+            "কিয়াম",
+            "দাঁড়িয়ে কিরাত পাঠ করুন। প্রথমে সূরা ফাতিহা এবং এরপর একটি সূরা বা আয়াত পাঠ করুন।"
+        ),
+        NamazStep(
+            "৫",
             "রুকু",
-            "রুকুতে গিয়ে আল্লাহর মহিমা ঘোষণা করুন এবং শান্তভাবে রুকু আদায় করুন।"
+            "‘আল্লাহু আকবার’ বলে রুকুতে যান এবং শান্তভাবে রুকু আদায় করুন।"
         ),
-        NamazTopic(
-            "🤲",
-            "সিজদা",
-            "সিজদায় গিয়ে আল্লাহর কাছে বিনয় প্রকাশ করুন এবং নির্ধারিত তাসবিহ পড়ুন।"
+        NamazStep(
+            "৬",
+            "প্রথম সিজদা",
+            "রুকু থেকে উঠে সোজা হয়ে দাঁড়িয়ে ‘আল্লাহু আকবার’ বলে সিজদায় যান।"
         ),
-        NamazTopic(
-            "📖",
-            "তাশাহুদ",
-            "বৈঠকে তাশাহুদ পাঠ করা হয়।"
+        NamazStep(
+            "৭",
+            "দুই সিজদার মাঝের বসা",
+            "প্রথম সিজদা থেকে উঠে কিছুক্ষণ বসুন, তারপর দ্বিতীয় সিজদা করুন।"
         ),
-        NamazTopic(
-            "🌙",
-            "দুরুদ শরীফ",
-            "শেষ বৈঠকে তাশাহুদের পর দুরুদ শরীফ পাঠ করা হয়।"
+        NamazStep(
+            "৮",
+            "দ্বিতীয় রাকাত",
+            "দাঁড়িয়ে দ্বিতীয় রাকাত শুরু করুন এবং প্রথম রাকাতের মতো কিরাত, রুকু ও দুই সিজদা আদায় করুন।"
+        ),
+        NamazStep(
+            "৯",
+            "শেষ বৈঠক",
+            "দ্বিতীয় রাকাতের দুই সিজদার পর বসে তাশাহুদ, দরুদ ও দোয়া পড়ুন।"
+        ),
+        NamazStep(
+            "১০",
+            "সালাম",
+            "ডান দিকে এবং বাম দিকে সালাম ফিরিয়ে নামাজ শেষ করুন।"
         )
     )
 
@@ -101,7 +105,7 @@ fun NamazScreen(
                 .background(Color(0xFF0B6B4F))
                 .padding(
                     horizontal = 16.dp,
-                    vertical = 14.dp
+                    vertical = 12.dp
                 )
         ) {
 
@@ -141,9 +145,9 @@ fun NamazScreen(
             )
 
             Text(
-                text = "🕌 নামাজ শিক্ষা",
+                text = "🕌 ২ রাকাত নামাজ",
                 color = Color.White,
-                fontSize = 26.sp,
+                fontSize = 25.sp,
                 fontWeight = FontWeight.Bold
             )
 
@@ -152,13 +156,13 @@ fun NamazScreen(
             )
 
             Text(
-                text = "ধাপে ধাপে নামাজ শিখুন",
+                text = "ধাপে ধাপে নামাজের নিয়ম",
                 color = Color.White,
                 fontSize = 15.sp
             )
         }
 
-        // Topics
+        // Namaz Steps
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = androidx.compose.foundation.layout.PaddingValues(
@@ -167,33 +171,20 @@ fun NamazScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            items(topics) { topic ->
-
-                NamazTopicCard(
-                    topic = topic,
-                    onClick = {
-                        if (topic.title == "২ রাকাত নামাজ") {
-                            onTwoRakatClick()
-                        }
-                    }
-                )
+            items(steps) { step ->
+                NamazStepCard(step)
             }
         }
     }
 }
 
 @Composable
-fun NamazTopicCard(
-    topic: NamazTopic,
-    onClick: () -> Unit
+fun NamazStepCard(
+    step: NamazStep
 ) {
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onClick()
-            },
+        modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
@@ -207,7 +198,7 @@ fun NamazTopicCard(
         ) {
 
             Text(
-                text = "${topic.emoji}  ${topic.title}",
+                text = "${step.number}. ${step.title}",
                 fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF174D3B)
@@ -218,10 +209,10 @@ fun NamazTopicCard(
             )
 
             Text(
-                text = topic.description,
-                fontSize = 14.sp,
+                text = step.description,
+                fontSize = 15.sp,
                 color = Color.DarkGray,
-                lineHeight = 21.sp
+                lineHeight = 22.sp
             )
         }
     }

@@ -61,11 +61,26 @@ fun IslamicLearningApp() {
         mutableStateOf(false)
     }
 
-    if (showNamazScreen) {
+    var showTwoRakatScreen by remember {
+        mutableStateOf(false)
+    }
+
+    if (showTwoRakatScreen) {
+
+        TwoRakatNamazScreen(
+            onBackClick = {
+                showTwoRakatScreen = false
+            }
+        )
+
+    } else if (showNamazScreen) {
 
         NamazScreen(
             onBackClick = {
                 showNamazScreen = false
+            },
+            onTwoRakatClick = {
+                showTwoRakatScreen = true
             }
         )
 
