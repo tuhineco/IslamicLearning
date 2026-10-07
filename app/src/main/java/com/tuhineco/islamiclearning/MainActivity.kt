@@ -16,30 +16,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-
-data class LearningItem(
-    val emoji: String,
-    val title: String,
-    val subtitle: String
-)
 
 class MainActivity : ComponentActivity() {
 
@@ -47,9 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MaterialTheme {
-                IslamicLearningApp()
-            }
+            IslamicLearningApp()
         }
     }
 }
@@ -57,232 +41,255 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun IslamicLearningApp() {
 
-    var showNamazScreen by remember {
-        mutableStateOf(false)
+    var showNamazScreen by remember { mutableStateOf(false) }
+    var showTwoRakatScreen by remember { mutableStateOf(false) }
+    var showWuduScreen by remember { mutableStateOf(false) }
+    var showNiyyahScreen by remember { mutableStateOf(false) }
+
+    var showSurahScreen by remember { mutableStateOf(false) }
+    var showSurahDetailScreen by remember { mutableStateOf(false) }
+
+    var showDuaScreen by remember { mutableStateOf(false) }
+    var showDuaDetailScreen by remember { mutableStateOf(false) }
+
+    var selectedSurahTitle by remember {
+        mutableStateOf("")
     }
 
-    var showTwoRakatScreen by remember {
-        mutableStateOf(false)
+    var selectedDuaTitle by remember {
+        mutableStateOf("")
     }
 
-    if (showTwoRakatScreen) {
+    when {
 
-        TwoRakatNamazScreen(
-            onBackClick = {
-                showTwoRakatScreen = false
-            }
-        )
+        // ২ রাকাত নামাজ
+        showTwoRakatScreen -> {
 
-    } else if (showNamazScreen) {
-
-        NamazScreen(
-            onBackClick = {
-                showNamazScreen = false
-            },
-            onTwoRakatClick = {
-                showTwoRakatScreen = true
-            }
-        )
-
-    } else {
-
-        IslamicLearningHome(
-            onNamazClick = {
-                showNamazScreen = true
-            }
-        )
-    }
-}
-
-@Composable
-fun IslamicLearningHome(
-    onNamazClick: () -> Unit
-) {
-
-    val menuItems = listOf(
-        LearningItem(
-            "🕌",
-            "নামাজ শিক্ষা",
-            "নামাজের সম্পূর্ণ নিয়ম"
-        ),
-        LearningItem(
-            "💧",
-            "ওযু শিক্ষা",
-            "সঠিকভাবে ওযু করার নিয়ম"
-        ),
-        LearningItem(
-            "🤲",
-            "নামাজের নিয়ত",
-            "বিভিন্ন নামাজের নিয়ত"
-        ),
-        LearningItem(
-            "📖",
-            "ছোট সূরা",
-            "প্রয়োজনীয় ছোট সূরা"
-        ),
-        LearningItem(
-            "🤲",
-            "দোয়া",
-            "প্রতিদিনের প্রয়োজনীয় দোয়া"
-        ),
-        LearningItem(
-            "🎧",
-            "অডিও",
-            "শুনে শুনে শিখুন"
-        ),
-        LearningItem(
-            "🧠",
-            "ইসলামিক কুইজ",
-            "জ্ঞান যাচাই করুন"
-        ),
-        LearningItem(
-            "⭐",
-            "প্রিয় বিষয়",
-            "আপনার সংরক্ষিত বিষয়"
-        )
-    )
-
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFF5F9F6)
-    ) {
-
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFF0B6B4F))
-                    .padding(
-                        horizontal = 20.dp,
-                        vertical = 24.dp
-                    )
-            ) {
-
-                Text(
-                    text = "☪ Islamic Learning",
-                    color = Color.White,
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(
-                    modifier = Modifier.height(6.dp)
-                )
-
-                Text(
-                    text = "ইসলাম সম্পর্কে জানুন, শিখুন ও আমল করুন",
-                    color = Color.White,
-                    fontSize = 15.sp
-                )
-            }
-
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
-
-            Text(
-                text = "📚 শেখার বিষয়সমূহ",
-                modifier = Modifier.padding(
-                    horizontal = 20.dp
-                ),
-                fontSize = 21.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF174D3B)
-            )
-
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    start = 14.dp,
-                    end = 14.dp,
-                    bottom = 20.dp
-                ),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-
-                items(menuItems) { item ->
-
-                    LearningCard(
-                        item = item,
-                        onClick = {
-
-                            if (item.title == "নামাজ শিক্ষা") {
-                                onNamazClick()
-                            }
-                        }
-                    )
+            TwoRakatNamazScreen(
+                onBackClick = {
+                    showTwoRakatScreen = false
+                    showNamazScreen = true
                 }
-            }
+            )
+        }
+
+        // নামাজ শিক্ষা
+        showNamazScreen -> {
+
+            NamazScreen(
+                onBackClick = {
+                    showNamazScreen = false
+                },
+                onTwoRakatClick = {
+                    showNamazScreen = false
+                    showTwoRakatScreen = true
+                }
+            )
+        }
+
+        // ওযু শিক্ষা
+        showWuduScreen -> {
+
+            WuduScreen(
+                onBackClick = {
+                    showWuduScreen = false
+                }
+            )
+        }
+
+        // নামাজের নিয়ত
+        showNiyyahScreen -> {
+
+            NiyyahScreen(
+                onBackClick = {
+                    showNiyyahScreen = false
+                }
+            )
+        }
+
+        // সূরা Detail
+        showSurahDetailScreen -> {
+
+            SurahDetailScreen(
+                title = selectedSurahTitle,
+                onBackClick = {
+                    showSurahDetailScreen = false
+                    showSurahScreen = true
+                }
+            )
+        }
+
+        // ছোট সূরা
+        showSurahScreen -> {
+
+            SurahScreen(
+                onBackClick = {
+                    showSurahScreen = false
+                },
+                onSurahClick = { title ->
+
+                    selectedSurahTitle = title
+                    showSurahScreen = false
+                    showSurahDetailScreen = true
+                }
+            )
+        }
+
+        // Dua Detail
+        showDuaDetailScreen -> {
+
+            DuaDetailScreen(
+                title = selectedDuaTitle,
+                onBackClick = {
+                    showDuaDetailScreen = false
+                    showDuaScreen = true
+                }
+            )
+        }
+
+        // Dua
+        showDuaScreen -> {
+
+            DuaScreen(
+                onBackClick = {
+                    showDuaScreen = false
+                },
+                onDuaClick = { title ->
+
+                    selectedDuaTitle = title
+                    showDuaScreen = false
+                    showDuaDetailScreen = true
+                }
+            )
+        }
+
+        // Home
+        else -> {
+
+            HomeScreen(
+                onNamazClick = {
+                    showNamazScreen = true
+                },
+                onWuduClick = {
+                    showWuduScreen = true
+                },
+                onNiyyahClick = {
+                    showNiyyahScreen = true
+                },
+                onSurahClick = {
+                    showSurahScreen = true
+                },
+                onDuaClick = {
+                    showDuaScreen = true
+                }
+            )
         }
     }
 }
 
 @Composable
-fun LearningCard(
-    item: LearningItem,
-    onClick: () -> Unit
+fun HomeScreen(
+    onNamazClick: () -> Unit,
+    onWuduClick: () -> Unit,
+    onNiyyahClick: () -> Unit,
+    onSurahClick: () -> Unit,
+    onDuaClick: () -> Unit
 ) {
 
-    Card(
+    val menuItems = listOf(
+        "🕌 নামাজ শিক্ষা",
+        "💧 ওযু শিক্ষা",
+        "🤲 নামাজের নিয়ত",
+        "📖 ছোট সূরা",
+        "🤲 দোয়া",
+        "🎧 অডিও",
+        "🧠 ইসলামিক কুইজ",
+        "⭐ প্রিয় বিষয়"
+    )
+
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(145.dp)
-            .clickable {
-                onClick()
-            },
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(20.dp)
         ) {
 
             Text(
-                text = item.emoji,
-                fontSize = 36.sp
+                text = "☪ Islamic Learning",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onPrimary
             )
 
-            Spacer(
-                modifier = Modifier.height(6.dp)
-            )
-
-            Text(
-                text = item.title,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF174D3B),
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(
-                modifier = Modifier.height(3.dp)
-            )
+            Spacer(modifier = Modifier.height(6.dp))
 
             Text(
-                text = item.subtitle,
-                fontSize = 12.sp,
-                color = Color.Gray,
-                textAlign = TextAlign.Center
+                text = "ইসলাম সম্পর্কে জানুন, শিখুন ও আমল করুন",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onPrimary
             )
+        }
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+
+            items(menuItems) { item ->
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                        .clickable {
+
+                            when (item) {
+
+                                "🕌 নামাজ শিক্ষা" -> {
+                                    onNamazClick()
+                                }
+
+                                "💧 ওযু শিক্ষা" -> {
+                                    onWuduClick()
+                                }
+
+                                "🤲 নামাজের নিয়ত" -> {
+                                    onNiyyahClick()
+                                }
+
+                                "📖 ছোট সূরা" -> {
+                                    onSurahClick()
+                                }
+
+                                "🤲 দোয়া" -> {
+                                    onDuaClick()
+                                }
+                            }
+                        }
+                ) {
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+
+                        Text(
+                            text = item,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+            }
         }
     }
 }
