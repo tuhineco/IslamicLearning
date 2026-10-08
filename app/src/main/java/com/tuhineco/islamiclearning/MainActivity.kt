@@ -28,10 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             IslamicLearningApp()
         }
@@ -52,19 +50,14 @@ fun IslamicLearningApp() {
     var showDuaScreen by remember { mutableStateOf(false) }
     var showDuaDetailScreen by remember { mutableStateOf(false) }
 
-    var selectedSurahTitle by remember {
-        mutableStateOf("")
-    }
+    var showAudioScreen by remember { mutableStateOf(false) }
 
-    var selectedDuaTitle by remember {
-        mutableStateOf("")
-    }
+    var selectedSurahTitle by remember { mutableStateOf("") }
+    var selectedDuaTitle by remember { mutableStateOf("") }
 
     when {
 
-        // ২ রাকাত নামাজ
         showTwoRakatScreen -> {
-
             TwoRakatNamazScreen(
                 onBackClick = {
                     showTwoRakatScreen = false
@@ -73,9 +66,7 @@ fun IslamicLearningApp() {
             )
         }
 
-        // নামাজ শিক্ষা
         showNamazScreen -> {
-
             NamazScreen(
                 onBackClick = {
                     showNamazScreen = false
@@ -87,9 +78,7 @@ fun IslamicLearningApp() {
             )
         }
 
-        // ওযু শিক্ষা
         showWuduScreen -> {
-
             WuduScreen(
                 onBackClick = {
                     showWuduScreen = false
@@ -97,9 +86,7 @@ fun IslamicLearningApp() {
             )
         }
 
-        // নামাজের নিয়ত
         showNiyyahScreen -> {
-
             NiyyahScreen(
                 onBackClick = {
                     showNiyyahScreen = false
@@ -107,9 +94,7 @@ fun IslamicLearningApp() {
             )
         }
 
-        // সূরা Detail
         showSurahDetailScreen -> {
-
             SurahDetailScreen(
                 title = selectedSurahTitle,
                 onBackClick = {
@@ -119,15 +104,12 @@ fun IslamicLearningApp() {
             )
         }
 
-        // ছোট সূরা
         showSurahScreen -> {
-
             SurahScreen(
                 onBackClick = {
                     showSurahScreen = false
                 },
                 onSurahClick = { title ->
-
                     selectedSurahTitle = title
                     showSurahScreen = false
                     showSurahDetailScreen = true
@@ -135,9 +117,7 @@ fun IslamicLearningApp() {
             )
         }
 
-        // Dua Detail
         showDuaDetailScreen -> {
-
             DuaDetailScreen(
                 title = selectedDuaTitle,
                 onBackClick = {
@@ -147,15 +127,12 @@ fun IslamicLearningApp() {
             )
         }
 
-        // Dua
         showDuaScreen -> {
-
             DuaScreen(
                 onBackClick = {
                     showDuaScreen = false
                 },
                 onDuaClick = { title ->
-
                     selectedDuaTitle = title
                     showDuaScreen = false
                     showDuaDetailScreen = true
@@ -163,9 +140,15 @@ fun IslamicLearningApp() {
             )
         }
 
-        // Home
-        else -> {
+        showAudioScreen -> {
+            AudioScreen(
+                onBackClick = {
+                    showAudioScreen = false
+                }
+            )
+        }
 
+        else -> {
             HomeScreen(
                 onNamazClick = {
                     showNamazScreen = true
@@ -181,6 +164,9 @@ fun IslamicLearningApp() {
                 },
                 onDuaClick = {
                     showDuaScreen = true
+                },
+                onAudioClick = {
+                    showAudioScreen = true
                 }
             )
         }
@@ -193,7 +179,8 @@ fun HomeScreen(
     onWuduClick: () -> Unit,
     onNiyyahClick: () -> Unit,
     onSurahClick: () -> Unit,
-    onDuaClick: () -> Unit
+    onDuaClick: () -> Unit,
+    onAudioClick: () -> Unit
 ) {
 
     val menuItems = listOf(
@@ -271,6 +258,10 @@ fun HomeScreen(
 
                                 "🤲 দোয়া" -> {
                                     onDuaClick()
+                                }
+
+                                "🎧 অডিও" -> {
+                                    onAudioClick()
                                 }
                             }
                         }
