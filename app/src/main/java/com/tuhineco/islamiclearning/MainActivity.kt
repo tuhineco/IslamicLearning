@@ -64,7 +64,6 @@ fun IslamicLearningApp() {
     // Favorite থেকে Detail-এ গেলে আবার Favorite Screen-এ ফেরার জন্য
     var returnToFavorites by remember { mutableStateOf(false) }
 
-
     when {
 
         // =========================
@@ -79,7 +78,6 @@ fun IslamicLearningApp() {
                 }
             )
         }
-
 
         // =========================
         // Namaz Screen
@@ -98,7 +96,6 @@ fun IslamicLearningApp() {
             )
         }
 
-
         // =========================
         // Wudu Screen
         // =========================
@@ -111,7 +108,6 @@ fun IslamicLearningApp() {
             )
         }
 
-
         // =========================
         // Niyyah Screen
         // =========================
@@ -123,7 +119,6 @@ fun IslamicLearningApp() {
                 }
             )
         }
-
 
         // =========================
         // Surah Detail
@@ -146,7 +141,6 @@ fun IslamicLearningApp() {
                 }
             )
         }
-
 
         // =========================
         // Surah List
@@ -171,7 +165,6 @@ fun IslamicLearningApp() {
             )
         }
 
-
         // =========================
         // Dua Detail
         // =========================
@@ -193,7 +186,6 @@ fun IslamicLearningApp() {
                 }
             )
         }
-
 
         // =========================
         // Dua List
@@ -218,7 +210,6 @@ fun IslamicLearningApp() {
             )
         }
 
-
         // =========================
         // Audio Screen
         // =========================
@@ -231,7 +222,6 @@ fun IslamicLearningApp() {
             )
         }
 
-
         // =========================
         // Quiz Screen
         // =========================
@@ -243,7 +233,6 @@ fun IslamicLearningApp() {
                 }
             )
         }
-
 
         // =========================
         // Favorites Screen
@@ -279,7 +268,6 @@ fun IslamicLearningApp() {
                 }
             )
         }
-
 
         // =========================
         // Home Screen
@@ -342,27 +330,17 @@ fun HomeScreen(
 ) {
 
     val menuItems = listOf(
-
         "🕌 নামাজ শিক্ষা",
-
         "💧 ওযু শিক্ষা",
-
         "🤲 নামাজের নিয়ত",
-
         "📖 ছোট সূরা",
-
         "🤲 দোয়া",
-
         "🎧 অডিও",
-
         "🧠 ইসলামিক কুইজ",
-
         "⭐ প্রিয় বিষয়"
     )
 
-
     Column(
-
         modifier = Modifier
             .fillMaxSize()
             .background(
@@ -370,13 +348,11 @@ fun HomeScreen(
             )
     ) {
 
-
         // =========================
         // Header
         // =========================
 
         Column(
-
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
@@ -386,40 +362,31 @@ fun HomeScreen(
         ) {
 
             Text(
-
                 text = "☪ Islamic Learning",
-
                 style = MaterialTheme.typography.headlineMedium,
-
                 color = MaterialTheme.colorScheme.onPrimary
             )
-
 
             Spacer(
                 modifier = Modifier.height(6.dp)
             )
 
-
             Text(
-
                 text = "ইসলাম সম্পর্কে জানুন, শিখুন ও আমল করুন",
-
                 style = MaterialTheme.typography.bodyMedium,
-
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
-
 
         // =========================
         // Menu Grid
         // =========================
 
         LazyVerticalGrid(
-
             columns = GridCells.Fixed(2),
-
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
 
             contentPadding = PaddingValues(16.dp),
 
@@ -428,12 +395,9 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-
             items(menuItems) { item ->
 
-
                 Card(
-
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp)
@@ -476,9 +440,7 @@ fun HomeScreen(
                         }
                 ) {
 
-
                     Column(
-
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp),
@@ -486,16 +448,23 @@ fun HomeScreen(
                         verticalArrangement = Arrangement.Center
                     ) {
 
-
                         Text(
-
                             text = item,
-
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
                 }
             }
         }
+
+        // =========================
+        // AdMob Banner
+        // =========================
+
+        AdBanner(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        )
     }
 }
