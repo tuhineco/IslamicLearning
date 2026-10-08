@@ -51,6 +51,7 @@ fun IslamicLearningApp() {
     var showDuaDetailScreen by remember { mutableStateOf(false) }
 
     var showAudioScreen by remember { mutableStateOf(false) }
+    var showQuizScreen by remember { mutableStateOf(false) }
 
     var selectedSurahTitle by remember { mutableStateOf("") }
     var selectedDuaTitle by remember { mutableStateOf("") }
@@ -148,6 +149,14 @@ fun IslamicLearningApp() {
             )
         }
 
+        showQuizScreen -> {
+            QuizScreen(
+                onBackClick = {
+                    showQuizScreen = false
+                }
+            )
+        }
+
         else -> {
             HomeScreen(
                 onNamazClick = {
@@ -167,6 +176,9 @@ fun IslamicLearningApp() {
                 },
                 onAudioClick = {
                     showAudioScreen = true
+                },
+                onQuizClick = {
+                    showQuizScreen = true
                 }
             )
         }
@@ -180,7 +192,8 @@ fun HomeScreen(
     onNiyyahClick: () -> Unit,
     onSurahClick: () -> Unit,
     onDuaClick: () -> Unit,
-    onAudioClick: () -> Unit
+    onAudioClick: () -> Unit,
+    onQuizClick: () -> Unit
 ) {
 
     val menuItems = listOf(
@@ -262,6 +275,10 @@ fun HomeScreen(
 
                                 "🎧 অডিও" -> {
                                     onAudioClick()
+                                }
+
+                                "🧠 ইসলামিক কুইজ" -> {
+                                    onQuizClick()
                                 }
                             }
                         }
