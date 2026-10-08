@@ -28,8 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             IslamicLearningApp()
         }
@@ -41,6 +43,7 @@ fun IslamicLearningApp() {
 
     var showNamazScreen by remember { mutableStateOf(false) }
     var showTwoRakatScreen by remember { mutableStateOf(false) }
+
     var showWuduScreen by remember { mutableStateOf(false) }
     var showNiyyahScreen by remember { mutableStateOf(false) }
 
@@ -53,12 +56,22 @@ fun IslamicLearningApp() {
     var showAudioScreen by remember { mutableStateOf(false) }
     var showQuizScreen by remember { mutableStateOf(false) }
 
+    var showFavoritesScreen by remember { mutableStateOf(false) }
+
     var selectedSurahTitle by remember { mutableStateOf("") }
     var selectedDuaTitle by remember { mutableStateOf("") }
 
+    // Favorite থেকে Detail-এ গেলে আবার Favorite Screen-এ ফেরার জন্য
+    var returnToFavorites by remember { mutableStateOf(false) }
+
+
     when {
 
+        // =========================
+        // 2 Rakat Namaz
+        // =========================
         showTwoRakatScreen -> {
+
             TwoRakatNamazScreen(
                 onBackClick = {
                     showTwoRakatScreen = false
@@ -67,11 +80,17 @@ fun IslamicLearningApp() {
             )
         }
 
+
+        // =========================
+        // Namaz Screen
+        // =========================
         showNamazScreen -> {
+
             NamazScreen(
                 onBackClick = {
                     showNamazScreen = false
                 },
+
                 onTwoRakatClick = {
                     showNamazScreen = false
                     showTwoRakatScreen = true
@@ -79,7 +98,12 @@ fun IslamicLearningApp() {
             )
         }
 
+
+        // =========================
+        // Wudu Screen
+        // =========================
         showWuduScreen -> {
+
             WuduScreen(
                 onBackClick = {
                     showWuduScreen = false
@@ -87,7 +111,12 @@ fun IslamicLearningApp() {
             )
         }
 
+
+        // =========================
+        // Niyyah Screen
+        // =========================
         showNiyyahScreen -> {
+
             NiyyahScreen(
                 onBackClick = {
                     showNiyyahScreen = false
@@ -95,53 +124,106 @@ fun IslamicLearningApp() {
             )
         }
 
+
+        // =========================
+        // Surah Detail
+        // =========================
         showSurahDetailScreen -> {
+
             SurahDetailScreen(
                 title = selectedSurahTitle,
+
                 onBackClick = {
+
                     showSurahDetailScreen = false
-                    showSurahScreen = true
+
+                    if (returnToFavorites) {
+                        returnToFavorites = false
+                        showFavoritesScreen = true
+                    } else {
+                        showSurahScreen = true
+                    }
                 }
             )
         }
 
+
+        // =========================
+        // Surah List
+        // =========================
         showSurahScreen -> {
+
             SurahScreen(
+
                 onBackClick = {
                     showSurahScreen = false
                 },
+
                 onSurahClick = { title ->
+
                     selectedSurahTitle = title
+
+                    returnToFavorites = false
+
                     showSurahScreen = false
                     showSurahDetailScreen = true
                 }
             )
         }
 
+
+        // =========================
+        // Dua Detail
+        // =========================
         showDuaDetailScreen -> {
+
             DuaDetailScreen(
                 title = selectedDuaTitle,
+
                 onBackClick = {
+
                     showDuaDetailScreen = false
-                    showDuaScreen = true
+
+                    if (returnToFavorites) {
+                        returnToFavorites = false
+                        showFavoritesScreen = true
+                    } else {
+                        showDuaScreen = true
+                    }
                 }
             )
         }
 
+
+        // =========================
+        // Dua List
+        // =========================
         showDuaScreen -> {
+
             DuaScreen(
+
                 onBackClick = {
                     showDuaScreen = false
                 },
+
                 onDuaClick = { title ->
+
                     selectedDuaTitle = title
+
+                    returnToFavorites = false
+
                     showDuaScreen = false
                     showDuaDetailScreen = true
                 }
             )
         }
 
+
+        // =========================
+        // Audio Screen
+        // =========================
         showAudioScreen -> {
+
             AudioScreen(
                 onBackClick = {
                     showAudioScreen = false
@@ -149,7 +231,12 @@ fun IslamicLearningApp() {
             )
         }
 
+
+        // =========================
+        // Quiz Screen
+        // =========================
         showQuizScreen -> {
+
             QuizScreen(
                 onBackClick = {
                     showQuizScreen = false
@@ -157,33 +244,90 @@ fun IslamicLearningApp() {
             )
         }
 
+
+        // =========================
+        // Favorites Screen
+        // =========================
+        showFavoritesScreen -> {
+
+            FavoritesScreen(
+
+                onBackClick = {
+                    showFavoritesScreen = false
+                },
+
+                // Favorite Surah থেকে Detail Screen
+                onSurahClick = { title ->
+
+                    selectedSurahTitle = title
+
+                    returnToFavorites = true
+
+                    showFavoritesScreen = false
+                    showSurahDetailScreen = true
+                },
+
+                // Favorite Dua থেকে Detail Screen
+                onDuaClick = { title ->
+
+                    selectedDuaTitle = title
+
+                    returnToFavorites = true
+
+                    showFavoritesScreen = false
+                    showDuaDetailScreen = true
+                }
+            )
+        }
+
+
+        // =========================
+        // Home Screen
+        // =========================
         else -> {
+
             HomeScreen(
+
                 onNamazClick = {
                     showNamazScreen = true
                 },
+
                 onWuduClick = {
                     showWuduScreen = true
                 },
+
                 onNiyyahClick = {
                     showNiyyahScreen = true
                 },
+
                 onSurahClick = {
                     showSurahScreen = true
                 },
+
                 onDuaClick = {
                     showDuaScreen = true
                 },
+
                 onAudioClick = {
                     showAudioScreen = true
                 },
+
                 onQuizClick = {
                     showQuizScreen = true
+                },
+
+                onFavoritesClick = {
+                    showFavoritesScreen = true
                 }
             )
         }
     }
 }
+
+
+// =====================================================
+// Home Screen
+// =====================================================
 
 @Composable
 fun HomeScreen(
@@ -193,59 +337,103 @@ fun HomeScreen(
     onSurahClick: () -> Unit,
     onDuaClick: () -> Unit,
     onAudioClick: () -> Unit,
-    onQuizClick: () -> Unit
+    onQuizClick: () -> Unit,
+    onFavoritesClick: () -> Unit
 ) {
 
     val menuItems = listOf(
+
         "🕌 নামাজ শিক্ষা",
+
         "💧 ওযু শিক্ষা",
+
         "🤲 নামাজের নিয়ত",
+
         "📖 ছোট সূরা",
+
         "🤲 দোয়া",
+
         "🎧 অডিও",
+
         "🧠 ইসলামিক কুইজ",
+
         "⭐ প্রিয় বিষয়"
     )
 
+
     Column(
+
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(
+                MaterialTheme.colorScheme.background
+            )
     ) {
 
+
+        // =========================
+        // Header
+        // =========================
+
         Column(
+
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
+                .background(
+                    MaterialTheme.colorScheme.primary
+                )
                 .padding(20.dp)
         ) {
 
             Text(
+
                 text = "☪ Islamic Learning",
+
                 style = MaterialTheme.typography.headlineMedium,
+
                 color = MaterialTheme.colorScheme.onPrimary
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+
+            Spacer(
+                modifier = Modifier.height(6.dp)
+            )
+
 
             Text(
+
                 text = "ইসলাম সম্পর্কে জানুন, শিখুন ও আমল করুন",
+
                 style = MaterialTheme.typography.bodyMedium,
+
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
 
+
+        // =========================
+        // Menu Grid
+        // =========================
+
         LazyVerticalGrid(
+
             columns = GridCells.Fixed(2),
+
             modifier = Modifier.fillMaxSize(),
+
             contentPadding = PaddingValues(16.dp),
+
             horizontalArrangement = Arrangement.spacedBy(12.dp),
+
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
+
             items(menuItems) { item ->
 
+
                 Card(
+
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp)
@@ -280,19 +468,29 @@ fun HomeScreen(
                                 "🧠 ইসলামিক কুইজ" -> {
                                     onQuizClick()
                                 }
+
+                                "⭐ প্রিয় বিষয়" -> {
+                                    onFavoritesClick()
+                                }
                             }
                         }
                 ) {
 
+
                     Column(
+
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp),
+
                         verticalArrangement = Arrangement.Center
                     ) {
 
+
                         Text(
+
                             text = item,
+
                             style = MaterialTheme.typography.titleMedium
                         )
                     }

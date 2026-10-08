@@ -1,5 +1,6 @@
 package com.tuhineco.islamiclearning
 
+import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -26,9 +32,25 @@ fun SurahDetailScreen(
         onBackClick()
     }
 
+    val context = LocalContext.current
+
     val cleanTitle = title
         .replace("📖 ", "")
         .trim()
+
+    val preferences = remember {
+        context.getSharedPreferences(
+            "favorites",
+            Context.MODE_PRIVATE
+        )
+    }
+
+    var isFavorite by remember {
+        mutableStateOf(
+            preferences.getStringSet("favorite_surahs", emptySet())
+                ?.contains(cleanTitle) == true
+        )
+    }
 
     val arabicText: String
     val pronunciationText: String
@@ -246,6 +268,41 @@ fun SurahDetailScreen(
             text = cleanTitle,
             style = MaterialTheme.typography.headlineSmall
         )
+
+        Button(
+            onClick = {
+
+                val currentFavorites =
+                    preferences.getStringSet(
+                        "favorite_surahs",
+                        emptySet()
+                    )?.toMutableSet() ?: mutableSetOf()
+
+                if (isFavorite) {
+                    currentFavorites.remove(cleanTitle)
+                    isFavorite = false
+                } else {
+                    currentFavorites.add(cleanTitle)
+                    isFavorite = true
+                }
+
+                preferences.edit()
+                    .putStringSet(
+                        "favorite_surahs",
+                        currentFavorites
+                    )
+                    .apply()
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                if (isFavorite) {
+                    "⭐ প্রিয় থেকে সরান"
+                } else {
+                    "☆ প্রিয়তে যোগ করুন"
+                }
+            )
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 

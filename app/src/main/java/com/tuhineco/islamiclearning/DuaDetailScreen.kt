@@ -1,5 +1,6 @@
 package com.tuhineco.islamiclearning
 
+import android.content.Context
 import android.speech.tts.TextToSpeech
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -45,6 +49,30 @@ fun DuaDetailScreen(
         .replace("🤲 ", "")
         .replace("🛡️ ", "")
         .trim()
+
+    // =========================
+    // Favorite Settings
+    // =========================
+
+    val preferences = remember {
+        context.getSharedPreferences(
+            "favorites",
+            Context.MODE_PRIVATE
+        )
+    }
+
+    var isFavorite by remember {
+        mutableStateOf(
+            preferences.getStringSet(
+                "favorite_duas",
+                emptySet()
+            )?.contains(cleanTitle) == true
+        )
+    }
+
+    // =========================
+    // Dua Content
+    // =========================
 
     val arabicText: String
     val pronunciationText: String
@@ -158,6 +186,10 @@ fun DuaDetailScreen(
         }
     }
 
+    // =========================
+    // Text To Speech
+    // =========================
+
     val tts = remember {
         TextToSpeech(context) { }
     }
@@ -173,14 +205,20 @@ fun DuaDetailScreen(
         }
     }
 
+    // =========================
+    // Screen
+    // =========================
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(16.dp),
+
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
+        // Back Button
         Button(
             onClick = onBackClick,
             modifier = Modifier.fillMaxWidth()
@@ -188,12 +226,22 @@ fun DuaDetailScreen(
             Text("← ফিরে যান")
         }
 
+
+        // Title
         Text(
             text = cleanTitle,
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+
+
+        // =========================
+        // Arabic
+        // =========================
 
         Text(
             text = "🕋 আরবি",
@@ -205,6 +253,11 @@ fun DuaDetailScreen(
             style = MaterialTheme.typography.bodyLarge
         )
 
+
+        // =========================
+        // Pronunciation
+        // =========================
+
         Text(
             text = "📖 বাংলা উচ্চারণ",
             style = MaterialTheme.typography.titleLarge
@@ -214,6 +267,11 @@ fun DuaDetailScreen(
             text = pronunciationText,
             style = MaterialTheme.typography.bodyLarge
         )
+
+
+        // =========================
+        // Meaning
+        // =========================
 
         Text(
             text = "💡 বাংলা অর্থ",
@@ -225,8 +283,14 @@ fun DuaDetailScreen(
             style = MaterialTheme.typography.bodyLarge
         )
 
+
+        // =========================
+        // Audio
+        // =========================
+
         Button(
             onClick = {
+
                 tts.speak(
                     pronunciationText,
                     TextToSpeech.QUEUE_FLUSH,
@@ -234,9 +298,61 @@ fun DuaDetailScreen(
                     "dua"
                 )
             },
+
             modifier = Modifier.fillMaxWidth()
         ) {
+
             Text("🔊 শুনুন")
+        }
+
+
+        // =========================
+        // Favorite Button
+        // =========================
+
+        Button(
+            onClick = {
+
+                val currentFavorites =
+                    preferences.getStringSet(
+                        "favorite_duas",
+                        emptySet()
+                    )?.toMutableSet()
+                        ?: mutableSetOf()
+
+
+                if (isFavorite) {
+
+                    currentFavorites.remove(cleanTitle)
+
+                    isFavorite = false
+
+                } else {
+
+                    currentFavorites.add(cleanTitle)
+
+                    isFavorite = true
+                }
+
+
+                preferences.edit()
+                    .putStringSet(
+                        "favorite_duas",
+                        currentFavorites
+                    )
+                    .apply()
+            },
+
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            Text(
+                text = if (isFavorite) {
+                    "⭐ প্রিয় থেকে সরান"
+                } else {
+                    "☆ প্রিয়তে যোগ করুন"
+                }
+            )
         }
     }
 }
